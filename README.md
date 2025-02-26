@@ -27,8 +27,8 @@ This project is a starting point for a Flutter application.
 A Flutter e-commerce app for locally made handicrafts and dishes in Albay.<br> 
 A Web implementation will be used as Admin while Application for the client side. <br>
 Pages: <br>
-a) Login page <br>
-b) Sign-up Page<br>
+a) Welcome Screen page <br>
+b) Authentication Screen/ Sign-up Page<br>
 c) Forgot Password Page <br>
 d) Landing Page (Food) (Handicrafts) , Filter <br>
 e) Favourites Page <br>
