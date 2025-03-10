@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-.fake
+.fake"android/app/build/outputs/apk/" 
+"android/app/build/intermediates/" 
