@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "821375547106",
+    "project_id": "ecolokal",
+    "storage_bucket": "ecolokal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821375547106:android:4199fe2f28bc2c6bb290bb",
+        "android_client_info": {
+          "package_name": "com.rence_carl_errole.ecolokal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhGP8eUKPuXhHFDICC0aB8WjQZ3T_PjRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">821375547106</string>
+    <string name="google_api_key" translatable="false">AIzaSyBhGP8eUKPuXhHFDICC0aB8WjQZ3T_PjRE</string>
+    <string name="google_app_id" translatable="false">1:821375547106:android:4199fe2f28bc2c6bb290bb</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBhGP8eUKPuXhHFDICC0aB8WjQZ3T_PjRE</string>
+    <string name="google_storage_bucket" translatable="false">ecolokal.firebasestorage.app</string>
+    <string name="project_id" translatable="false">ecolokal</string>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

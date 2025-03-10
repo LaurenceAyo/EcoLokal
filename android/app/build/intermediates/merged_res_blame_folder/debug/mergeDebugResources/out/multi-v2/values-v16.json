@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.rence_carl_errole.ecolokal.app-mergeDebugResources-45:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Laurence Ayo\\.gradle\\caches\\8.10.2\\transforms\\4a8b0524beb1ff8059c0269d773f3005\\transformed\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    }
+                }
+            ]
+        }
+    ]
+}
