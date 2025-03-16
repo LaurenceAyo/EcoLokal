@@ -10,7 +10,7 @@ class HandicraftsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Image.asset('assets/logo.png', height: 50),
+        title: Image.asset('assets/eco-lokal-logo-1.png', height: 50),
         centerTitle: true,
       ),
       body: Padding(

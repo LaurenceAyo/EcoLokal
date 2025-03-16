@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  mysql_client: ^0.0.27
+  http: ^1.2.0
+  crypto: ^3.0.0
   flutter:
     sdk: flutter
 
@@ -65,6 +68,7 @@ flutter:
     - assets/images/male-users.png
     - assets/images/sellers-and-buyers-4.png
     - assets/images/sellers_and_buyers_5.png
+    - assets/images/eco-lokal-logo-1.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
