@@ -251,7 +251,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   Flexible(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await signInWithGoogle();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: BorderSide(color: Colors.grey),
@@ -290,5 +292,35 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> signInWithGoogle() async {
+  try {
+    // Trigger the Google Sign-In flow
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      // The user canceled the sign-in
+      return;
+    }
+
+    // Obtain the authentication details from the request
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    // Create a new credential
+    AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Sign in to Firebase with the Google credential
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // Print the user's display name
+    print("Signed in as: ${userCredential.user?.displayName}");
+  } catch (e) {
+    print("Error during Google Sign-In: $e");
   }
 }
