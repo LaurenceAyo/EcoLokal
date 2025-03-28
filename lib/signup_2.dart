@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
-import 'signup_3.dart'; // Ensure correct import with semicolon
+import 'signup_3.dart'; // Import SignUpScreen3
 
 class SignUpScreen2 extends StatelessWidget {
-  final String gender; // Receive gender from previous screen
+  final String fullName;
+  final String username;
+  final String emailAddress;
+  final String gender;
+  final String birthDate;
 
-  const SignUpScreen2({Key? key, required this.gender}) : super(key: key);
+  const SignUpScreen2({
+    super.key,
+    required this.fullName,
+    required this.username,
+    required this.emailAddress,
+    required this.gender,
+    required this.birthDate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sign Up - Step 2"),
+        backgroundColor: Colors.green,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -68,7 +83,13 @@ class SignUpScreen2 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignUpScreen3(gender: gender), // Pass gender
+                        builder: (context) => SignUpScreen3(
+                          fullName: fullName,
+                          username: username,
+                          emailAddress: emailAddress,
+                          gender: gender,
+                          birthDate: birthDate,
+                        ),
                       ),
                     );
                   },
@@ -106,3 +127,5 @@ class SignUpScreen2 extends StatelessWidget {
     );
   }
 }
+
+

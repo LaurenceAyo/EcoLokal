@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'signup_2.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  SignUpScreenState createState() => SignUpScreenState(); // Updated to use the public class
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class SignUpScreenState extends State<SignUpScreen> { // Removed the leading underscore
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender;
   String? _selectedDay;
   String? _selectedMonth;
   String? _selectedYear;
+
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +56,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const Text("Fill in the required details to continue"),
               const SizedBox(height: 20),
               Form(
-                key: _formKey,
+                key: _formKey, // Attach the form key
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: _fullNameController,
                       decoration: const InputDecoration(labelText: "Full Name"),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Full Name is required";
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
+                      controller: _usernameController,
                       decoration: const InputDecoration(labelText: "Username"),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Username is required";
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(labelText: "Email Address"),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "Email Address is required";
+                        }
+                        // Regular expression for validating email format
+                        final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                        if (!emailRegex.hasMatch(value)) {
+                          return "Please enter a valid email address";
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     const Align(
@@ -123,17 +155,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 15),
                         ),
                         onPressed: () {
-                          if (_selectedGender != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUpScreen2(gender: _selectedGender!),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Please select a gender")),
-                            );
+                          if (_formKey.currentState!.validate()) {
+                            if (_selectedGender != null) {
+                              final String birthDate = "${_selectedDay ?? ''} ${_selectedMonth ?? ''} ${_selectedYear ?? ''}";
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpScreen2(
+                                    fullName: _fullNameController.text.trim(),
+                                    username: _usernameController.text.trim(),
+                                    emailAddress: _emailController.text.trim(),
+                                    gender: _selectedGender!,
+                                    birthDate: birthDate,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Please select a gender")),
+                              );
+                            }
                           }
                         },
                         child: const Text("Continue", style: TextStyle(color: Colors.white)),
@@ -141,7 +182,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) => SignUpScreen(),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0); // Start from the right
+                              const end = Offset.zero; // End at the current position
+                              const curve = Curves.easeInOut;
+
+                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
                       child: const Text("Cancel", style: TextStyle(color: Colors.black)),
                     ),
                   ],

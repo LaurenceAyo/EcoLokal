@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
-import 'signup_2.dart'; // Import previous step in sign-up flow
+import 'dart:developer'; // Import the log function
 
 class SignUpScreen3 extends StatefulWidget {
-  final String gender; // Receiving gender from previous screen
+  final String fullName;
+  final String username;
+  final String emailAddress;
+  final String gender;
+  final String birthDate;
 
-  const SignUpScreen3({Key? key, required this.gender}) : super(key: key);
+  const SignUpScreen3({
+    super.key,
+    required this.fullName,
+    required this.username,
+    required this.emailAddress,
+    required this.gender,
+    required this.birthDate,
+  });
 
   @override
   _SignUpScreen3State createState() => _SignUpScreen3State();
@@ -18,7 +29,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _postalCodeController = TextEditingController();
 
-  bool _subscribeToNewsletter = false;
   bool _agreeToTerms = false;
   bool _termsError = false; // Tracks if user hasn't checked terms
 
@@ -27,11 +37,26 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
       _termsError = !_agreeToTerms; // Show error if checkbox is not checked
     });
 
-    if (_selectedUserType != null && _agreeToTerms) {
-      // TODO: Implement sign-up logic
+    if (_formKey.currentState!.validate() && _selectedUserType != null && _agreeToTerms) {
+      // Collect all data
+      final String address = _addressController.text.trim();
+      final String city = _cityController.text.trim();
+      final String postalCode = _postalCodeController.text.trim();
+      final String userType = _selectedUserType!;
+
+      // Log the collected data
+      log("Full Name: ${widget.fullName}");
+      log("Username: ${widget.username}");
+      log("Email Address: ${widget.emailAddress}");
+      log("Gender: ${widget.gender}");
+      log("Birth Date: ${widget.birthDate}");
+      log("Address: $address");
+      log("City: $city");
+      log("Postal Code: $postalCode");
+      log("User Type: $userType");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select a user type and agree to terms")),
+        const SnackBar(content: Text("Please fill in all required fields and agree to terms")),
       );
     }
   }
@@ -39,6 +64,10 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sign Up - Step 3"),
+        backgroundColor: Colors.green,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -47,20 +76,20 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
             children: [
               const SizedBox(height: 40),
 
-              // Step Indicator
+              /// 🔹 Step Indicator for Step 3
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.blue.withOpacity(0.4),
+                      backgroundColor: Colors.blue.withAlpha((0.4 * 255).toInt()), // Replaced withAlpha
                       child: const Text('1', style: TextStyle(color: Colors.white)),
                     ),
                     const SizedBox(width: 10),
                     const Text(" - - - - "),
                     const SizedBox(width: 10),
                     CircleAvatar(
-                      backgroundColor: Colors.blue.withOpacity(0.4),
+                      backgroundColor: Colors.blue.withAlpha((0.4 * 255).toInt()), // Replaced withAlpha
                       child: const Text('2', style: TextStyle(color: Colors.white)),
                     ),
                     const SizedBox(width: 10),
@@ -110,7 +139,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                         decoration: BoxDecoration(
                           border: Border.all(color: _selectedUserType == "Seller" ? Colors.blue : Colors.grey),
                           borderRadius: BorderRadius.circular(10),
-                          color: _selectedUserType == "Seller" ? Colors.blue.withOpacity(0.4) : Colors.transparent,
+                          color: _selectedUserType == "Seller" ? Colors.blue.withAlpha((0.4 * 255).toInt()) : Colors.transparent,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -137,7 +166,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                         decoration: BoxDecoration(
                           border: Border.all(color: _selectedUserType == "Buyer" ? Colors.blue : Colors.grey),
                           borderRadius: BorderRadius.circular(10),
-                          color: _selectedUserType == "Buyer" ? Colors.blue.withOpacity(0.4) : Colors.transparent,
+                          color: _selectedUserType == "Buyer" ? Colors.blue.withAlpha((0.4 * 255).toInt()) : Colors.transparent,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -165,7 +194,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
               const SizedBox(height: 5),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter your address",
                 ),
@@ -178,7 +207,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
               const SizedBox(height: 5),
               TextField(
                 controller: _cityController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter your city",
                 ),
@@ -192,14 +221,13 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
               TextField(
                 controller: _postalCodeController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Enter your postal code",
                 ),
               ),
 
               const SizedBox(height: 15),
-
 
               // Terms & Conditions Checkbox (Required)
               Row(
@@ -244,21 +272,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   ),
                   onPressed: _validateAndSubmit,
                   child: const Text("Sign-up", style: TextStyle(color: Colors.white)),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // Cancel Button (Back to SignUpScreen2)
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen2(gender: widget.gender)),
-                    );
-                  },
-                  child: const Text("Cancel", style: TextStyle(color: Colors.black)),
                 ),
               ),
             ],

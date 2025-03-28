@@ -1,27 +1,27 @@
 import 'dart:convert';
+import 'dart:developer'; // Import the log function
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'firstpage_handicraft.dart'; // Ensure this file exists and contains HandicraftsPage class
 import 'forgotpass_1.dart'; // Ensure this file exists and contains ForgotPass1Page class
 import 'signup_1.dart'; // Ensure this file exists and contains SignUpScreen class
 import 'package:mysql_client/mysql_client.dart';
-import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   static Future<MySQLConnection> connectToDatabase() async {
     final conn = await MySQLConnection.createConnection(
-      host: "10.0.2.2", // Your MySQL host
-      port: 3306, // MySQL default port 
+      host: "10.0.2.2", // MySQL host
+      port: 3306, // MySQL default port
       userName: "admin",
-      password: "password123", // Your MySQL password
+      password: "password123", // MySQL Workbench password
       databaseName: "eco_lokal_app",
       secure: false, // Disable SSL
     );
 
     await conn.connect();
-    print("Connected to MySQL successfully!");
+    log("Connected to MySQL successfully!"); // Replaced print with log
     return conn;
   }
 }
@@ -37,7 +37,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<void> _login() async {
     String username = usernameController.text.trim();
@@ -257,8 +257,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: BorderSide(color: Colors.grey),
+                        padding: EdgeInsets.symmetric(vertical: 16), // Increased vertical padding
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center, // Center content
                         children: [
                           Image.asset('assets/images/google-logo.png', width: 20),
                           SizedBox(width: 10),
@@ -274,8 +276,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: BorderSide(color: Colors.grey),
+                        padding: EdgeInsets.symmetric(vertical: 16), // Increased vertical padding
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center, // Center content
                         children: [
                           Image.asset('assets/images/facebook.png', width: 20),
                           SizedBox(width: 10),
@@ -302,11 +306,17 @@ Future<void> signInWithGoogle() async {
 
     if (googleUser == null) {
       // The user canceled the sign-in
+      log("Google Sign-In was canceled by the user."); // Replaced print with log
       return;
     }
 
     // Obtain the authentication details from the request
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    if (googleAuth.accessToken == null || googleAuth.idToken == null) {
+      log("Google Sign-In failed: Missing authentication tokens."); // Replaced print with log
+      return;
+    }
 
     // Create a new credential
     AuthCredential credential = GoogleAuthProvider.credential(
@@ -318,9 +328,17 @@ Future<void> signInWithGoogle() async {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
 
-    // Print the user's display name
-    print("Signed in as: ${userCredential.user?.displayName}");
+    // Check if the user is successfully signed in
+    if (userCredential.user != null) {
+      log("Signed in as: ${userCredential.user?.displayName}"); // Replaced print with log
+    } else {
+      log("Google Sign-In failed: UserCredential is null."); // Replaced print with log
+    }
+  } on FirebaseAuthException catch (e) {
+    // Handle Firebase-specific errors
+    log("FirebaseAuthException during Google Sign-In: ${e.message}"); // Replaced print with log
   } catch (e) {
-    print("Error during Google Sign-In: $e");
+    // Handle other errors
+    log("Error during Google Sign-In: $e"); // Replaced print with log
   }
 }

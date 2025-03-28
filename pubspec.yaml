@@ -35,7 +35,9 @@ dependencies:
   firebase_core: ^2.15.0
   flutter:
     sdk: flutter
-
+  mysql1: ^0.19.2
+  sqflite: ^2.2.8+4 # Add this line
+  path: ^1.8.3      # Ensure the `path` package is also included
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -70,7 +72,22 @@ flutter:
     - assets/images/male-users.png
     - assets/images/sellers-and-buyers-4.png
     - assets/images/sellers_and_buyers_5.png
-    - assets/images/eco-lokal-logo-1.png
+    - assets/images/mainLogo.png
+    - assets/images/Abaca_Place_Mats.png
+    - assets/images/Abaca_Sling_Bag.png
+    - assets/images/bicol_express.png
+    - assets/images/Handmade_Bamboo_Jewelry_Box.png
+    - assets/images/Handmade_Vase.png
+    - assets/images/Handwoven_Banig.png
+    - assets/images/Kandingga.png
+    - assets/images/Kinunot.png
+    - assets/images/Laing.png
+    - assets/images/Mayon_Volcano_Miniature.png
+    - assets/images/Pili_Nut_Tart.png
+    - assets/images/Pili_Nuts.png
+    - assets/images/Pinangat.png
+    - assets/images/Sili_Ice_Cream.png
+    - assets/images/Tilmok.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
